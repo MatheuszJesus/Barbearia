@@ -1,10 +1,12 @@
 package com.example.barbearia.model;
+
+import java.math.BigDecimal;
 import java.sql.Date;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "USUARIOS")
-public class Usuario extends AbstractEntity<Long> {
+@Table(name = "FUNCIONARIOS")
+public class Funcionario extends AbstractEntity<Long> {
     @Column(nullable = false, unique = true, length = 200)
     private String nome;
     @Column(nullable = false, unique = true, length = 100)
@@ -19,7 +21,11 @@ public class Usuario extends AbstractEntity<Long> {
     private Date dataNasc;
     @Column(name = "data_cadastro", nullable = false, columnDefinition = "DATE")
     private Date dataCadastro;
-
+    @Column(nullable = false, unique = true, length = 30)
+    private String cargo;
+    @Column(nullable = false, columnDefinition = "DECIMAL(7,2) DEFAULT 0.00")
+    private BigDecimal salario;
+    
     public String getNome() {
         return nome;
     }
@@ -62,10 +68,23 @@ public class Usuario extends AbstractEntity<Long> {
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
-    
+    public String getCargo() {
+        return cargo;
+    }
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+    public BigDecimal getSalario() {
+        return salario;
+    }
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
+    }
+
     @Override
     public String toString() {
-        return "Usuario [nome=" + nome + ", email=" + email + ", senha=" + senha + ", telefone=" + telefone + ", cpf="
-                + cpf + ", dataNasc=" + dataNasc + ", dataCadastro=" + dataCadastro + "]";
+        return "Funcionario [nome=" + nome + ", email=" + email + ", senha=" + senha + ", telefone=" + telefone
+                + ", cpf=" + cpf + ", dataNasc=" + dataNasc + ", dataCadastro=" + dataCadastro + ", cargo=" + cargo
+                + ", salario=" + salario + "]";
     }
 }
