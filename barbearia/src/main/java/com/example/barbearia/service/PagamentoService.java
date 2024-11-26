@@ -31,7 +31,7 @@ public class PagamentoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Pagamento> buscarTodas(){
+    public List<Pagamento> buscarTodos(){
         return repository.findAll();
     }
 }

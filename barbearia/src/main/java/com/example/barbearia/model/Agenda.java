@@ -2,8 +2,12 @@ package com.example.barbearia.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+
 import jakarta.persistence.*;
 
+@Entity
+@Table(name = "AGENDAS")
 public class Agenda extends AbstractEntity<Long>{
     @ManyToOne
     @JoinColumn(name = "id_cliente_fk")
@@ -13,8 +17,13 @@ public class Agenda extends AbstractEntity<Long>{
     private Funcionario funcionario;
     private LocalDate data;
     private LocalTime hora;
-    @OneToMany(mappedBy = "agenda")
-    private Servico servico;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+    name = "agenda_servico", 
+    joinColumns = @JoinColumn(name = "id_agenda_fk"), 
+    inverseJoinColumns = @JoinColumn(name = "id_servico_fk")
+    )
+    private List<Servico> servico;
     
     public Cliente getCliente() {
         return cliente;
@@ -40,10 +49,11 @@ public class Agenda extends AbstractEntity<Long>{
     public void setHora(LocalTime hora) {
         this.hora = hora;
     }
-    public Servico getServico() {
+
+    public List<Servico> getServico() {
         return servico;
     }
-    public void setServico(Servico servico) {
+    public void setServico(List<Servico> servico) {
         this.servico = servico;
     }
 

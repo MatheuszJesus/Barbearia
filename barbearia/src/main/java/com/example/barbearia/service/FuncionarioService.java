@@ -31,7 +31,7 @@ public class FuncionarioService {
     }
 
     @Transactional(readOnly = true)
-    public List<Funcionario> buscarTodas(){
+    public List<Funcionario> buscarTodos(){
         return repository.findAll();
     }
 }

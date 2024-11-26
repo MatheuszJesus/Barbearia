@@ -31,7 +31,7 @@ public class ClienteService {
     }
 
     @Transactional(readOnly = true)
-    public List<Cliente> buscarTodas(){
+    public List<Cliente> buscarTodos(){
         return repository.findAll();
     }
 }

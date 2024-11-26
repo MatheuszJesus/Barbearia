@@ -1,7 +1,7 @@
 package com.example.barbearia.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,9 +18,9 @@ public class Funcionario extends AbstractEntity<Long> {
     @Column(nullable = false, unique = true, length = 20)
     private String cpf;
     @Column(name = "data_nasc", nullable = false, columnDefinition = "DATE")
-    private Date dataNasc;
+    private LocalDate dataNasc;
     @Column(name = "data_cadastro", nullable = false, columnDefinition = "DATE")
-    private Date dataCadastro;
+    private LocalDate dataCadastro;
     @Column(nullable = false, unique = true, length = 30)
     private String cargo;
     @Column(nullable = false, columnDefinition = "DECIMAL(7,2) DEFAULT 0.00")
@@ -56,16 +56,16 @@ public class Funcionario extends AbstractEntity<Long> {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    public Date getDataNasc() {
+    public LocalDate getDataNasc() {
         return dataNasc;
     }
-    public void setDataNasc(Date dataNasc) {
+    public void setDataNasc(LocalDate dataNasc) {
         this.dataNasc = dataNasc;
     }
-    public Date getDataCadastro() {
+    public LocalDate getDataCadastro() {
         return dataCadastro;
     }
-    public void setDataCadastro(Date dataCadastro) {
+    public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
     public String getCargo() {
