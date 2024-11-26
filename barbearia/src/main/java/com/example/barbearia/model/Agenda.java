@@ -3,7 +3,6 @@ package com.example.barbearia.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
 import jakarta.persistence.*;
 
 @Entity

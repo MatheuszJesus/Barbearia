@@ -8,6 +8,7 @@ import com.example.barbearia.model.*;
 import com.example.barbearia.service.AgendaService;
 import com.example.barbearia.service.ClienteService;
 import com.example.barbearia.service.FuncionarioService;
+import com.example.barbearia.service.PagamentoService;
 import com.example.barbearia.service.ServicoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public class BarbeariaApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo (ClienteService cli, ServicoService serv, FuncionarioService func, AgendaService agend){
+	public CommandLineRunner demo (ClienteService cli, ServicoService serv, FuncionarioService func, AgendaService agend, PagamentoService pag){
 		return(args) ->{
 
 			Cliente c = new Cliente();
@@ -64,10 +65,10 @@ public class BarbeariaApplication {
 			serv.salvar(s1);
 			// System.out.println(serv.buscarTodos());
 
-
 			List<Servico> listaServicos = new ArrayList<>();
 			listaServicos.add(s);
 			listaServicos.add(s1);
+
 			Agenda a = new Agenda();
 			a.setCliente(c);
 			a.setFuncionario(f);
@@ -77,7 +78,15 @@ public class BarbeariaApplication {
 			agend.salvar(a);
 			// System.out.println(agend.buscarTodas());
 			
-			
+			Pagamento p = new Pagamento();
+			p.setCliente(c);
+			p.setDataPagamento(LocalDate.now());
+			p.setStatus("Confirmado");
+			p.setFormaPagamento("Pix");
+			p.setValor(new BigDecimal("90.00"));
+			p.setAtendimento(a);
+			pag.salvar(p);
+			System.out.println(pag.buscarTodos());
 		};
 	}
 }

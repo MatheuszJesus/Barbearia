@@ -13,10 +13,10 @@ public class Pagamento extends AbstractEntity<Long> {
     private String formaPagamento;
     @Column(name = "data_pagamento", nullable = false, columnDefinition = "DATE")
     private LocalDate dataPagamento;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cliente_id_fk")
     private Cliente cliente;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "atendimento_id_fk")
     private Agenda atendimento;
     @Column(nullable = false, unique = true, length = 20)

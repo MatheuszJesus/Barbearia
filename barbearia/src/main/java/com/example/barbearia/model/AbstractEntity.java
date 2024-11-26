@@ -1,4 +1,5 @@
 package com.example.barbearia.model;
+
 import java.io.Serializable;
 import jakarta.persistence.*;
 
