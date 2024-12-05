@@ -1,13 +1,17 @@
 package com.example.barbearia.model;
 
 import java.time.LocalDate;
-import jakarta.persistence.*;
 import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CLIENTES")
 public class Cliente extends AbstractEntity<Long> {
-    @Column(nullable = false, unique = true, length = 200)
+    @Column(nullable = false, unique = false, length = 200)
     private String nome;
     @Column(nullable = false, unique = true, length = 100)
     private String email;

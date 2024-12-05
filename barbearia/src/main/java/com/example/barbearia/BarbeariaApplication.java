@@ -1,20 +1,28 @@
 package com.example.barbearia;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import com.example.barbearia.model.*;
-import com.example.barbearia.service.AgendaService;
-import com.example.barbearia.service.ClienteService;
-import com.example.barbearia.service.FuncionarioService;
-import com.example.barbearia.service.PagamentoService;
-import com.example.barbearia.service.ServicoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import com.example.barbearia.model.Agenda;
+import com.example.barbearia.model.Cliente;
+import com.example.barbearia.model.Funcionario;
+import com.example.barbearia.model.Pagamento;
+import com.example.barbearia.model.Servico;
+import com.example.barbearia.service.AgendaService;
+import com.example.barbearia.service.ClienteService;
+import com.example.barbearia.service.FuncionarioService;
+import com.example.barbearia.service.PagamentoService;
+import com.example.barbearia.service.ServicoService;
+
+
 
 @SpringBootApplication
 public class BarbeariaApplication {
@@ -34,9 +42,12 @@ public class BarbeariaApplication {
 			c.setDataCadastro(LocalDate.now());
 			c.setDataNasc(LocalDate.of(2006, 9, 19));
 			c.setTelefone("(77) 99999-9999");
-			c.setSenha("askdasda");
+			c.setSenha("mths789#2");
+
 			cli.salvar(c);
-			// System.out.println(cli.buscarTodos());
+
+			System.out.println(cli.buscarTodos());
+		
 
 			Funcionario f = new Funcionario();
 			f.setNome("Eduardo");
@@ -47,23 +58,23 @@ public class BarbeariaApplication {
 			f.setCargo("Cabeleleiro");
 			f.setEmail("eduardo@gmail.com");
 			f.setSalario(new BigDecimal("1200.00"));
-			f.setSenha("eseseses");
+			f.setSenha("edd999#");
 			func.salvar(f);
-			// System.out.println(func.buscarTodos());
+			System.out.println(func.buscarTodos());
 
 			Servico s = new Servico();
-			s.setCategoria("corte + barba");
-			s.setDescricao("dsadasdasdasdadsasda");
-			s.setPreco(new BigDecimal("40.00"));
+			s.setCategoria("corte");
+			s.setDescricao("Corte de cabelo a partir da escolha do cliente. ");
+			s.setPreco(new BigDecimal("25.00"));
 			serv.salvar(s);
-			// System.out.println(serv.buscarTodos());
+			System.out.println(serv.buscarTodos());
 
 			Servico s1 = new Servico();
 			s1.setCategoria("luzes");
-			s1.setDescricao("dsadasdasdasdsadsasadsasda");
-			s1.setPreco(new BigDecimal("50.00"));
+			s1.setDescricao("Aquele cabelo no estilo mais chamativo e diferenciado possível.");
+			s1.setPreco(new BigDecimal("80.00"));
 			serv.salvar(s1);
-			// System.out.println(serv.buscarTodos());
+			System.out.println(serv.buscarTodos());
 
 			List<Servico> listaServicos = new ArrayList<>();
 			listaServicos.add(s);
@@ -76,7 +87,7 @@ public class BarbeariaApplication {
 			a.setHora(LocalTime.of(16, 30));
 			a.setServico(listaServicos);
 			agend.salvar(a);
-			// System.out.println(agend.buscarTodas());
+			System.out.println(agend.buscarTodas());
 			
 			Pagamento p = new Pagamento();
 			p.setCliente(c);
