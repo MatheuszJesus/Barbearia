@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "FUNCIONARIOS")
 public class Funcionario extends AbstractEntity<Long> {
-    @Column(nullable = false, unique = true, length = 200)
+    @Column(nullable = false, unique = false, length = 200)
     private String nome;
     @Column(nullable = false, unique = true, length = 100)
     private String email;
