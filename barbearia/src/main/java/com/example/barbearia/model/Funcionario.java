@@ -21,7 +21,7 @@ public class Funcionario extends AbstractEntity<Long> {
     private LocalDate dataNasc;
     @Column(name = "data_cadastro", nullable = false, columnDefinition = "DATE")
     private LocalDate dataCadastro;
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(nullable = false, unique = false, length = 30)
     private String cargo;
     @Column(nullable = false, columnDefinition = "DECIMAL(7,2) DEFAULT 0.00")
     private BigDecimal salario;
