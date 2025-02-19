@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="/WEB-INF/template/Layout.xhtml">
+
+	<ui:define name="titulo">Consulta de Funcionarios</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
+			<!-- <p:messages id="messages" showDetail="true" closable="true">
+				<p:autoUpdate/>
+			</p:messages> -->
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:button icon="pi pi-plus" value="Novo" title="Novo" outcome="cadastrofuncionario" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="dt-funcionarios" widgetVar="dtFuncionarios" var="funcionario"
+				value="#{consultaFuncionarioBean.funcionarios}" reflow="true" styleClass="cargos-table" paginator="true"
+				rows="10" paginatorPosition="bottom"> <!-- </p:dataTable>selectionRowMode="add" paginatorPosition="bottom"
+				selection="#{consultaFuncionarioBean.funcionarioSelecionado}" rowKey="#{funcionario.id}"> -->
+				<!-- <p:dataTable id="dt-cargos" widgetVar="dtCargos" var="cargo" value="#{cargoBean.cargos}"
+						 paginator="true" rows="7" selectionRowMode="add" paginatorPosition="bottom"> -->
+
+
+				<p:column headerText="Name" sortBy="#{funcionario.nome}" filterBy="#{funcionario.nome}"
+					filterMatchMode="contains" styleClass="filterPlaceholder" widgetVar="dtFuncionarios">
+					<p:watermark value="Filtrar " for="@(.filterPlaceholder)" />
+					<h:outputText value="#{funcionario.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor Unit." >
+					<h:outputText value="#{funcionario.salario}">
+						<f:convertNumber type="currency" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Data Entrada" sortBy="#{funcionario.dataEntrada}">
+					<h:outputText value="#{funcionario.dataEntrada}">
+
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Data Saída"  sortBy="#{funcionario.dataSaida}">
+					<h:outputText value="#{funcionario.dataSaida}" />
+
+				</p:column>
+
+				<!--<p:column headerText="Endereço" style="text-align: center">
+					<h:outputText value="#{funcionario.endereco.logradouro}"/>
+				</p:column> -->
+
+				<p:column headerText="Endereço" >
+					<p:commandButton icon="pi pi-eye" update="@form"
+						oncomplete="PF('detalheEnderecoDialog').show()"
+						styleClass="edit-button rounded-button ui-button-success" process="@this">
+						<f:setPropertyActionListener value="#{funcionario}"
+							target="#{consultaFuncionarioBean.funcionarioSelecionado}" />
+						<p:resetInput target="@form" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column field="cargo" headerText="Cargo" filterMatchMode="exact">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('dtFuncionarios').filter()" styleClass="ui-custom-filter">
+							<f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+							<f:selectItems value="#{consultaFuncionarioBean.todosCargos}" var="cargo"
+								itemLabel="#{cargo.nome}" />
+						</p:selectOneMenu>
+					</f:facet>
+
+					<h:outputText value="#{funcionario.cargo.nome}" />
+				</p:column>
+				
+				<p:column headerText="Ações">
+					<p:button icon="pi pi-pencil" title="Alterar" outcome="cadastrofuncionario">
+						<f:param name="id" value="#{funcionario.id}" />
+					</p:button>
+
+					<p:commandButton icon="pi pi-trash" process="@this" 
+						oncomplete="PF('deleteFuncionarioDialog').show()">
+						<f:setPropertyActionListener value="#{funcionario}"
+							target="#{consultaFuncionarioBean.funcionarioSelecionado}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		<!-- </h:form>
+
+		<h:form id="dialogs"> -->
+
+			<p:dialog header="Endereço Detalhes" showEffect="fade" modal="true" widgetVar="detalheEnderecoDialog"
+				responsive="true">
+				<p:outputPanel id="detalhe-endereco-content" class="ui-fluid">
+					<p:panelGrid columns="2" rendered="#{not empty consultaFuncionarioBean.funcionarioSelecionado}"
+						columnClasses="label,value">
+						<p:outputLabel value="Logradouro:" />
+						<h:outputText value="#{consultaFuncionarioBean.funcionarioSelecionado.endereco.logradouro}" />
+
+						<h:outputText value="Complemento:" />
+						<h:outputText value="#{consultaFuncionarioBean.funcionarioSelecionado.endereco.complemento}" />
+
+						<h:outputText value="Número:" />
+						<h:outputText value="#{consultaFuncionarioBean.funcionarioSelecionado.endereco.numero}" />
+
+						<h:outputText value="Bairro:" />
+						<h:outputText value="#{consultaFuncionarioBean.funcionarioSelecionado.endereco.bairro}" />
+
+						<h:outputText value="Cidade:" />
+						<h:outputText value="#{consultaFuncionarioBean.funcionarioSelecionado.endereco.cidade}" />
+
+						<h:outputText value="UF:" />
+						<h:outputText value="#{consultaFuncionarioBean.funcionarioSelecionado.endereco.uf}" />
+
+						<h:outputText value="CEP:" />
+						<h:outputText value="#{consultaFuncionarioBean.funcionarioSelecionado.endereco.cep}" />
+
+
+
+					</p:panelGrid>
+				</p:outputPanel>
+
+				<f:facet name="footer">
+					<p:commandButton value="Fechar" icon="pi pi-close" onclick="PF('detalheEnderecoDialog').hide()"
+						class="ui-button-secondary" type="button" />
+				</f:facet>
+			</p:dialog> 
+
+			<p:confirmDialog widgetVar="deleteFuncionarioDialog" showEffect="fade" width="350"
+				message="Exclusão de Funcionario?" header="Confirmação" severity="warn">
+				<p:commandButton value="Sim" icon="pi pi-check" actionListener="#{consultaFuncionarioBean.excluir()}"
+					process="@this" update="@form" oncomplete="PF('deleteFuncionarioDialog').hide()" />
+				<p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+					process="@this" update="@form" onclick="PF('deleteFuncionarioDialog').hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog global="true" showEffect="fade" width="300">
+				<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+					icon="pi pi-times" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

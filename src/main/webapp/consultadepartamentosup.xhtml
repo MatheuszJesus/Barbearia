@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="/WEB-INF/template/Layout.xhtml">
+
+	<ui:define name="titulo">Cadastro de Departamentos</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="form">
+			<p:growl id="messages" showDetail="true" />
+			<!-- <p:messages id="messages" showDetail="true" closable="true">
+				<p:autoUpdate />
+			</p:messages> -->
+
+
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Novo" icon="pi pi-plus"
+						actionListener="#{departamentoBeanUp.preparaCadastro()}"
+						update=":dialogs:manage-product-content" oncomplete="PF('manageDepartamentoDialog').show()"
+						styleClass="ui-button-success" style="margin-right: .5rem">
+						<p:resetInput target=":dialogs:manage-product-content" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<p:dataTable id="dt-departamentos" widgetVar="dtCargos" var="departamento"
+				value="#{departamentoBeanUp.departamentos}" reflow="true" styleClass="cargos-table"
+				selection="#{departamento.departamentoSelecionado}" rowKey="#{departamento.id}" paginator="true"
+				rows="10" selectionRowMode="add" paginatorPosition="bottom">
+
+
+				<p:column headerText="Name" sortBy="#{departamento.nome}" filterBy="#{departamento.nome}"
+					filterMatchMode="contains" styleClass="filterPlaceholder" widgetVar="dtCargos">
+					<p:watermark value="Filtrar " for="@(.filterPlaceholder)" />
+					<h:outputText value="#{departamento.nome}" />
+				</p:column>
+
+				<p:column headerText="Ações">
+					<p:commandButton icon="pi pi-pencil" update=":dialogs:manage-product-content"
+						oncomplete="PF('manageDepartamentoDialog').show()"
+						styleClass="edit-button rounded-button ui-button-success" process="@this">
+						<f:setPropertyActionListener value="#{departamento}"
+							target="#{departamentoBeanUp.departamentoSelecionado}" />
+						<p:resetInput target=":dialogs:manage-product-content" />
+					</p:commandButton>
+					
+					<p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+						oncomplete="PF('deleteDepartamentoDialog').show()">
+						<f:setPropertyActionListener value="#{departamento}"
+							target="#{departamentoBeanUp.departamentoSelecionado}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+		<h:form id="dialogs">
+
+			<p:dialog header="Departamento Detalhes" showEffect="fade" modal="true" widgetVar="manageDepartamentoDialog"
+				responsive="true">
+				<p:outputPanel id="manage-product-content" class="ui-fluid">
+					<p:outputPanel rendered="#{not empty departamentoBeanUp.departamentoSelecionado}">
+						<div class="field">
+							<p:outputLabel for="name">Nome</p:outputLabel>
+							<p:inputText id="name" value="#{departamentoBeanUp.departamentoSelecionado.nome}"
+								required="true" />
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+
+				<f:facet name="footer">
+					<p:commandButton value="Salvar" styleClass="ui-button-success" icon="pi pi-check" 
+						actionListener="#{departamentoBeanUp.salvar()}"
+						update="manage-product-content :form:dt-departamentos" process="manage-product-content @this" />
+					<p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageDepartamentoDialog').hide()"
+						class="ui-button-secondary" type="button" />
+				</f:facet>
+			</p:dialog>
+
+			<p:confirmDialog widgetVar="deleteDepartamentoDialog" showEffect="fade" width="350" message="Exclusão de Departamento?"
+				header="Confirmação" severity="warn">
+				<p:commandButton value="Sim" icon="pi pi-check" actionListener="#{departamentoBeanUp.excluir()}"
+					process="@this" update="@form"
+					oncomplete="PF('deleteDepartamentoDialog').hide()" />
+				<p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+					process="@this" update="@form"
+					onclick="PF('deleteDepartamentoDialog').hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog global="true" showEffect="fade" width="300">
+				<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+					icon="pi pi-times" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
